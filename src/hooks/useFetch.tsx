@@ -25,7 +25,7 @@ export default function useFetch<T>(
       }
     };
     fetchMovies();
-  }, [fetchFunction]);
+  }, [fetchFunction, enabled]);
 
   return { data, error, loading };
 }

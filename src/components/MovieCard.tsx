@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import placeholder from "../assets/movie.avif";
 
 interface MovieCardProps {
   id: number;
@@ -7,20 +8,12 @@ interface MovieCardProps {
 }
 
 export default function MovieCard({ id, path, title }: MovieCardProps) {
+  const imgsrc = path ? `https://image.tmdb.org/t/p/w342${path}` : placeholder;
   return (
-    // <Link to={`/movie/${id}`}>
-    //   <article className="group flex flex-col max-w-50 m-2 overflow-hidden rounded-xl cursor-pointer text-white hover:scale-110 transition-transform duration-300">
-    //     <img
-    //       className="rounded-xl"
-    //       src={`https://image.tmdb.org/t/p/w154${path}`}
-    //     />
-    //     <h3 className="p-2">{title}</h3>
-    //   </article>
-    // </Link>
     <Link to={`/movie/${id}`} className="block w-44 shrink-0">
       <article className="group overflow-hidden rounded-xl text-white">
         <img
-          src={`https://image.tmdb.org/t/p/w342${path}`}
+          src={imgsrc}
           alt={title}
           className="
             aspect-[2/3]

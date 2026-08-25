@@ -22,15 +22,21 @@ const SimilarMovies = () => {
   } = useFetch<MovieResponse>(fetchSimilarMovies, true);
 
   return (
-    <div>
-      <Gallery
-        data={similarMovies?.results ?? []}
-        heading="You might also like:"
-        loading={loading}
-        error={error}
-        type="carousel"
-      />
-    </div>
+    <>
+      {similarMovies?.total_results ? (
+        <div>
+          <Gallery
+            data={similarMovies?.results ?? []}
+            heading="You might also like:"
+            loading={loading}
+            error={error}
+            type="carousel"
+          />
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </>
   );
 };
 

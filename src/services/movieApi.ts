@@ -51,10 +51,11 @@ export const getTopMovies = async () => {
   return response.json();
 };
 
-export const searchMovies = async (query: string) => {
+export const searchMovies = async (query: string, page: number = 1) => {
   const params = new URLSearchParams({
     query,
     api_key: API_KEY,
+    page: page.toString(),
   });
 
   const response = await fetch(`${CUSTOM_BASE_URL.SEARCH_MOVIES}?${params}`);

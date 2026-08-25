@@ -28,7 +28,7 @@ const CarouselSkeleton = () => {
           px-12
         "
       >
-        {Array.from({ length: 6 }).map((_, index) => (
+        {Array.from({ length: 8 }).map((_, index) => (
           <li key={index} className="shrink-0">
             <MovieCardSkeleton />
           </li>

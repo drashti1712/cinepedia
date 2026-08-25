@@ -1,8 +1,9 @@
 import type { Genre } from "../../types";
+import placeholder from "../../assets/movie.avif";
 
 interface HeroBannerProps {
   background: string;
-  poster: string;
+  poster: string | null;
   title: string;
   tagline: string;
   genres: Genre[];
@@ -23,6 +24,9 @@ const HeroBanner = ({
   overview,
   release_date,
 }: HeroBannerProps) => {
+  const imgsrc = poster
+    ? `https://image.tmdb.org/t/p/w500${poster}`
+    : placeholder;
   return (
     <section className="relative min-h-[650px] overflow-hidden">
       {/* Background */}
@@ -45,13 +49,11 @@ const HeroBanner = ({
         <div className="flex w-full flex-col items-center gap-8 md:flex-row md:items-end">
           {/* Poster */}
           <div className="flex w-48 shrink-0 flex-col gap-3 md:w-56 lg:w-64">
-            {poster && (
-              <img
-                src={`https://image.tmdb.org/t/p/w500${poster}`}
-                alt={`${title} poster`}
-                className="aspect-[2/3] w-full rounded-xl object-cover shadow-2xl"
-              />
-            )}
+            <img
+              src={imgsrc}
+              alt={`${title} poster`}
+              className="aspect-[2/3] w-full rounded-xl object-cover shadow-2xl"
+            />
           </div>
 
           {/* Movie details */}
