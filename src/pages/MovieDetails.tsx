@@ -36,6 +36,7 @@ const MovieDetails = () => {
         {movieDetails ? (
           <>
             <HeroBanner
+              id={movieDetails.id}
               background={movieDetails.backdrop_path}
               poster={movieDetails.poster_path}
               title={movieDetails.title}

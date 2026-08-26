@@ -1,7 +1,14 @@
+import { useState } from "react";
 import type { Genre } from "../../types";
+import {
+  removeFromWatchlist,
+  isInWatchlist,
+  addToWatchlist,
+} from "../../utils/watchlist";
 import placeholder from "../../assets/movie.avif";
 
 interface HeroBannerProps {
+  id: number;
   background: string;
   poster: string | null;
   title: string;
@@ -14,6 +21,7 @@ interface HeroBannerProps {
 }
 
 const HeroBanner = ({
+  id,
   background,
   poster,
   title,
@@ -24,9 +32,28 @@ const HeroBanner = ({
   overview,
   release_date,
 }: HeroBannerProps) => {
+  const [isWatchlisted, setIsWatchlisted] = useState<boolean>(() =>
+    isInWatchlist(id),
+  );
   const imgsrc = poster
     ? `https://image.tmdb.org/t/p/w500${poster}`
     : placeholder;
+
+  const handleWatchlist = () => {
+    if (isWatchlisted) {
+      removeFromWatchlist(id);
+      setIsWatchlisted(false);
+    } else {
+      addToWatchlist({
+        id,
+        title,
+        poster_path: poster,
+      });
+
+      setIsWatchlisted(true);
+    }
+  };
+
   return (
     <section className="relative min-h-[650px] overflow-hidden">
       {/* Background */}
@@ -116,7 +143,6 @@ const HeroBanner = ({
                   View on IMDb
                 </a>
               )}
-
               <button
                 type="button"
                 className="
@@ -133,8 +159,9 @@ const HeroBanner = ({
                   transition
                   hover:bg-white/30
                 "
+                onClick={handleWatchlist}
               >
-                + Add to Watchlist
+                {isWatchlisted ? "✅ Added to watchlist" : "+ Add to Watchlist"}
               </button>
             </div>
           </div>

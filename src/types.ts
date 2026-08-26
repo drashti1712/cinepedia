@@ -82,3 +82,9 @@ export interface MovieDetail {
   vote_average: number;
   vote_count: number;
 }
+
+export interface WatchlistMovie {
+  id: number;
+  title: string;
+  poster_path: string | null;
+}
