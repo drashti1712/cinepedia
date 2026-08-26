@@ -95,6 +95,8 @@ export default function Homepage() {
     };
   }, [searchQuery, loadNextPage]);
 
+  const noSearchResults = movies.length === 0 && <p>No movies found!</p>;
+
   return (
     <main className="bg-gray-950">
       <Search
@@ -102,7 +104,7 @@ export default function Homepage() {
         query={searchQuery}
         onSearch={(query: string) => setSearchParams({ q: query })}
       />
-      {searchQuery ? (
+      {searchQuery && movies.length > 0 ? (
         <>
           <Gallery
             data={movies}
@@ -120,6 +122,7 @@ export default function Homepage() {
         </>
       ) : (
         <>
+          {noSearchResults}
           <Gallery
             data={trending?.data?.results ?? []}
             heading="Now Playing"
