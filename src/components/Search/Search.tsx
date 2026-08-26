@@ -1,8 +1,46 @@
+import { useState, useRef } from "react";
+import SearchHistory from "./SearchHistory";
+
 interface SearchProps {
-  setSearchData: React.Dispatch<React.SetStateAction<string>>;
+  query: string;
+  onSearch: (query: string) => void;
 }
 
-export default function Search({ setSearchData }: SearchProps) {
+export default function Search({ query, onSearch }: SearchProps) {
+  const [inputValue, setInputValue] = useState<string>(query ?? "");
+  const [showHistory, setShowHistory] = useState<boolean>(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const [searchHistory, setSearchHistory] = useState<string[]>(() => {
+    const storedHistory = localStorage.getItem("searchHistory");
+    return storedHistory ? JSON.parse(storedHistory) : [];
+  });
+
+  const saveSearch = (search: string) => {
+    setSearchHistory((prevHistory) => {
+      const updatedHistory = [
+        search,
+        ...prevHistory.filter((item) => item !== search),
+      ].slice(0, 10);
+      localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+      return updatedHistory;
+    });
+  };
+
+  const clearHistory = () => {
+    localStorage.removeItem("searchHistory");
+    setSearchHistory([]);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmedQuery = inputValue.trim();
+    if (!trimmedQuery) {
+      return;
+    }
+    saveSearch(trimmedQuery);
+    onSearch(trimmedQuery);
+  };
+
   return (
     <header className="min-h-50 bg-gray-950 flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold text-yellow-400 my-4">
@@ -10,12 +48,7 @@ export default function Search({ setSearchData }: SearchProps) {
       </h1>
       <form
         className="max-w-lg sm:w-lg mx-auto"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const searchValue = formData.get("search")?.toString();
-          setSearchData(searchValue ?? "");
-        }}
+        onSubmit={(e) => handleSubmit(e)}
       >
         <label
           htmlFor="search"
@@ -46,16 +79,33 @@ export default function Search({ setSearchData }: SearchProps) {
             type="search"
             id="search"
             name="search"
+            ref={searchRef}
+            onFocus={() => setShowHistory(true)}
+            onBlur={() => setShowHistory(false)}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
             className="block w-full p-3 ps-9 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-xl focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
             placeholder="Search"
             required
           />
           <button
+            onFocus={() => setShowHistory(true)}
+            onBlur={() => setShowHistory(false)}
             type="submit"
             className="absolute end-1.5 bottom-1.5 text-white bg-brand hover:bg-brand-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded text-xs px-3 py-1.5 focus:outline-none"
           >
             Search
           </button>
+          {showHistory && (
+            <SearchHistory
+              history={searchHistory}
+              onSelect={(search) => {
+                setInputValue(search);
+                onSearch(search);
+              }}
+              onClear={clearHistory}
+            />
+          )}
         </div>
       </form>
     </header>

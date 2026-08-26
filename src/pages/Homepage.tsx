@@ -9,9 +9,11 @@ import {
   searchMovies,
 } from "../services/movieApi.ts";
 import useFetch from "../hooks/useFetch.tsx";
+import { useSearchParams } from "react-router";
 
 export default function Homepage() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("q") ?? "";
   const [movies, setMovies] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
@@ -95,7 +97,11 @@ export default function Homepage() {
 
   return (
     <main className="bg-gray-950">
-      <Search setSearchData={setSearchQuery} />
+      <Search
+        key={searchQuery}
+        query={searchQuery}
+        onSearch={(query: string) => setSearchParams({ q: query })}
+      />
       {searchQuery ? (
         <>
           <Gallery
