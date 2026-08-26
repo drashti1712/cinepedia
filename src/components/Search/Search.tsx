@@ -6,6 +6,7 @@ interface SearchProps {
   onSearch: (query: string) => void;
 }
 
+// TODO: What if there ar eno matching search results?
 export default function Search({ query, onSearch }: SearchProps) {
   const [inputValue, setInputValue] = useState<string>(query ?? "");
   const [showHistory, setShowHistory] = useState<boolean>(false);

@@ -47,7 +47,6 @@ const HeroBanner = ({
       {/* Content */}
       <div className="relative z-10 mx-auto flex min-h-[650px] max-w-7xl items-end px-4 py-10 sm:px-6 md:px-10 lg:px-12">
         <div className="flex w-full flex-col items-center gap-8 md:flex-row md:items-end">
-          {/* Poster */}
           <div className="flex w-48 shrink-0 flex-col gap-3 md:w-56 lg:w-64">
             <img
               src={imgsrc}

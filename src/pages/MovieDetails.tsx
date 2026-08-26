@@ -25,31 +25,6 @@ const MovieDetails = () => {
   } = useFetch<MovieDetail>(fetchMovieDetails, true);
 
   // TODO: initial value for movieDetail?
-  // const [movieDetails, setMovieDetails] = useState<MovieDetail>();
-  // const [loading, setLoading] = useState<boolean>(true);
-  // const [error, setError] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const fetchMovieDetails = async () => {
-  //     if (!id) {
-  //       setLoading(false);
-  //       setError("Movie ID is missing!");
-  //       return;
-  //     }
-  //     try {
-  //       setLoading(true);
-  //       setError(null);
-  //       const response = await getMovieDetails(id);
-  //       setMovieDetails(response);
-  //     } catch (err) {
-  //       console.log("Errorrrrr", err);
-  //       setError("Something went wrong!");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchMovieDetails();
-  // }, [id]);
 
   return (
     <AsyncState
